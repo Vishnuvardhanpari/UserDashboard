@@ -1,0 +1,96 @@
+<div class="container">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <form [formGroup]="formGroup" class="well form-horizontal" (validSubmit)="onSubmit()">
+      <fieldset>
+
+          
+          <legend>
+              
+              <h2><b>Registration Form</b></h2>
+              
+          </legend><br>
+
+         
+
+          <div class="form-group">
+              <label class="col-md-4 control-label">Name</label>
+              <div class="col-md-4 inputGroupContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                      <input name="name" [(ngModel)]="nameValue" placeholder="Name" class="form-control" type="text"
+                          formControlName="Name">
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-md-4 control-label">E-Mail</label>
+              <div class="col-md-4 inputGroupContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                      <input name="email" [(ngModel)]="emailValue" placeholder="E-Mail Address" class="form-control"
+                          type="text" formControlName="Email">
+                  </div>
+              </div>
+          </div>
+
+         
+
+          <div class="form-group">
+              <label class="col-md-4 control-label">Contact No.</label>
+              <div class="col-md-4 inputGroupContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                      <input name="contact_no" [(ngModel)]="contactNumValue" placeholder="(+91)" class="form-control"
+                          type="text" formControlName="PhoneNumber">
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-md-4 control-label">Salary</label>
+              <div class="col-md-4 inputGroupContainer">
+                  <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-inr " style="font-size:21px"></i></span>
+                      <input name="salary" [(ngModel)]="salaryValue" placeholder="Salary" class="form-control"
+                          type="text" formControlName="Salary">
+                  </div>
+              </div>
+          </div>
+
+          <div>
+          <div *ngFor="let item of items;let i=index">
+              <div class="form-group">
+                  <label class="col-md-4 control-label">Company</label>
+                  <div class="col-md-4 selectContainer">
+                      <div class="input-group">
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase" ></i></span>
+                          <input [(ngModel)]="item.company" name="item.company" placeholder="Company Name" class="form-control"
+                              type="text" formControlName="Company">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <span style="margin-left: 367px;" class="col-md-4 selectContainer" (click)="onAdd()" class="btn btn-success">+</span>
+          
+
+          
+
+          
+          <div class="form-group ">
+             
+              <div class="col-md-4 addbtn"><br>
+                  <button type="submit" class="btn btn-warning">
+                    {{addLabel}}
+                  </button>
+              </div>
+          </div>
+      </fieldset>
+  </form>
+
+  
+
+</div>
