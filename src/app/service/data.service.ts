@@ -1,5 +1,7 @@
 import { isNgTemplate } from '@angular/compiler';
+import { newArray } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { UserForm } from '../form/form.component';
 
 @Injectable({
@@ -7,7 +9,7 @@ import { UserForm } from '../form/form.component';
 })
 export class DataService {
 
-  constructor() { }
+  constructor(private fb:FormBuilder) { }
 
   userFormList : UserForm[] = [];
 
@@ -20,7 +22,7 @@ export class DataService {
   }
 
   retrieveUserById(id : Number) : UserForm {
-    var user = new UserForm(0,"","","","",[]);
+    var user = new UserForm(0,"","","","",this.fb.array([]) as FormArray);
     this.userFormList.forEach(itm => {
       if(itm.id == id){
         user = itm;
@@ -37,7 +39,10 @@ export class DataService {
   editData(form : UserForm){
     this.userFormList.forEach(function(itm){
       if(itm.id == form.id){
-        itm = form;
+        itm.name = form.name;
+        itm.emailId = form.emailId;
+        itm.contactNumber = form.contactNumber;
+        itm.company = form.company;
       }
     })
   }

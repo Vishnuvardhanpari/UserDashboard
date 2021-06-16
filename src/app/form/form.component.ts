@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../service/data.service';
 
@@ -12,18 +12,46 @@ export class FormComponent implements OnInit {
 
   constructor(public dataService : DataService,
     private router:Router,
-    private activatedRoute:ActivatedRoute) { }
+    private activatedRoute:ActivatedRoute,
+    private fb:FormBuilder) { }
+
+    productForm: FormGroup = this.fb.group({
+      companies: this.fb.array([]) ,
+    });
+  
+    companies() : FormArray {
+      // if(this.add){
+        return this.productForm.get("companies") as FormArray
+      // }
+      // else{
+      //   return this.companyNames;
+      // }
+
+    }
+  
+    newCompany(): FormGroup {
+      return this.fb.group({
+        companyName : '',
+      })
+    }
+     
+    addQuantity() {
+      this.companies().push(this.newCompany());
+    }
+     
+    removeQuantity(i:number) {
+      this.companies().removeAt(i);
+    }
+
 
   formGroup: FormGroup = new FormGroup({});
-  items : Item[] = [];
-
-  item : Item = new Item("");
   
 
   nameValue : string = "";
   emailValue : string = "";
   salaryValue : string = "";
   contactNumValue : string = "";
+  companyNames : FormArray = this.fb.array([]);
 
   add : boolean = false;
   id : Number = 0;
@@ -39,7 +67,7 @@ export class FormComponent implements OnInit {
       if(params.get('mode')==="add"){
         this.add = true;
         this.addLabel = "Add";
-        this.items.push(this.item);
+        // this.items.push(this.item);
       }
       else {
         this.add = false;
@@ -50,10 +78,15 @@ export class FormComponent implements OnInit {
         this.emailValue = user.emailId;
         this.salaryValue = user.salary;
         this.contactNumValue = user.contactNumber;
-        this.items = user.company;
+        this.companyNames = user.company;
+        // user.company.forEach(data =>{
+        //   this.items.push(data);
+        // })
+        // this.items = user.company;
       }
     })
     
+    this.addQuantity();
     this.formGroup = new FormGroup({
       Email: new FormControl('', [
         Validators.required,
@@ -74,27 +107,38 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit(){
+    console.log("update button");
     
-    this.dataService.addData(new UserForm(this.dataService.getData().length+1,this.nameValue,this.emailValue,this.salaryValue,this.contactNumValue,this.items))
-      
-      this.router.navigate(['../dashboard'])
+    if(this.add)
+    {
+    this.dataService.addData(new UserForm(this.dataService.getData().length+1,this.nameValue,this.emailValue,this.salaryValue,this.contactNumValue,this.companies()));
+    } 
+    else
+    {
+      this.dataService.editData(new UserForm(this.id,this.nameValue,this.emailValue,this.salaryValue,this.contactNumValue,this.companies()));
+    }
+    
+    
+    this.router.navigate(['../dashboard'])
       console.log(this.dataService.getData());
   }
 
-  onAdd(){
-    this.items.push(new Item(""));
-  }
+  // onAdd(){
+  //   this.items.push(new Item(""));
+  // }
 
   
 
 }
 
 export class UserForm {
-   constructor(public id:number,public name:string,public emailId:string,public salary : string ,public contactNumber : string,public company : Item[]){}
+   constructor(public id:Number,public name:string,
+    public emailId:string,public salary : string ,
+    public contactNumber : string,public company : FormArray){}
 
 }
 
 export class Item {
-  constructor(public company : string){}
+  constructor(public companyName : string){}
 
 }

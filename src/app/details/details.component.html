@@ -13,7 +13,7 @@
                             <div class="card-icon">
                                 <i class="material-icons">content_copy</i>
                             </div>
-                            <p class="card-category">Used Space</p>
+                            <p class="card-category"><Used Space/p>
                             <h3 class="card-title">{{usedSpace}}/{{availableSpace}}
                                 <small style="color: white;">GB</small>
                             </h3>
@@ -77,7 +77,7 @@
                                 <th>Contact No</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor='let user of users | filter:searchbox'>
+                                <tr *ngFor='let user of filtered_users'>
                                     <td>{{user.id}}</td>
                                     <td>{{user.name}}</td>
                                     <td>{{user.salary}}</td>
@@ -85,12 +85,12 @@
                                     <td>{{user.contactNumber}}</td>
                                     <td><button (click)="onUpdateUser(user)"
                                             class="glyphicon glyphicon-pencil btn btn-warning"></button></td>
-                                    
-                                    <td><button class="glyphicon glyphicon-remove btn btn-danger" mwlConfirmationPopover
+                                    <td><button class="glyphicon glyphicon-remove btn btn-danger" (click)="popover(user)"></button></td>
+                                    <!-- <td><button class="glyphicon glyphicon-remove btn btn-danger" mwlConfirmationPopover
                                             [popoverMessage]="popoverMessage" placement="left"
                                             (confirm)="onDeleteUser(user)" (cancel)="cancelClicked = true">
 
-                                        </button></td>
+                                        </button></td> -->
                                 </tr>
                             </tbody>
                             <tfoot>

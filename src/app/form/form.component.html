@@ -60,7 +60,7 @@
               </div>
           </div>
 
-          <div>
+          <!-- <div>
           <div *ngFor="let item of items;let i=index">
               <div class="form-group">
                   <label class="col-md-4 control-label">Company</label>
@@ -73,13 +73,23 @@
                   </div>
               </div>
           </div>
-      </div>
-      <span style="margin-left: 367px;" class="col-md-4 selectContainer" (click)="onAdd()" class="btn btn-success">+</span>
-          
-
-          
-
-          
+      </div> -->
+      <form [formGroup]="productForm" class="form-group">
+        <div formArrayName="companies" class="block">
+            <div *ngFor="let company of companies().controls; let i=index" [formGroupName]="i">
+                <label class="col-md-4 control-label">Company</label>
+                <div class="col-md-4 inputGroupContainer parallel">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase" ></i></span>
+                        <input type="text" class="form-control" formControlName="companyName">
+                    </div>
+                    <i (click)="removeQuantity(i)" class="glyphicon glyphicon-trash btn btn-danger"
+                        style="margin-left: 8px;"></i>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button type="button" (click)="addQuantity()" class="btn btn-primary">Add Company</button>   
           <div class="form-group ">
              
               <div class="col-md-4 addbtn"><br>
